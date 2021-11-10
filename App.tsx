@@ -9,6 +9,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   SafeAreaView,
   ScrollView,
@@ -26,6 +27,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import initLang from './src/lang/initLang';
 
 const Section: React.FC<{
   title: string;
@@ -55,7 +57,10 @@ const Section: React.FC<{
   );
 };
 
+initLang();
+
 const App = () => {
+  const {t} = useTranslation();
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -74,8 +79,7 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+            {t('thanks')}
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
