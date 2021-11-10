@@ -1,4 +1,6 @@
-const callAPI = (URL: string, method: string, dataBody?: Object) => {
+import { APIResponse } from "../interfaces/API";
+
+const callAPI = (URL: string, method: string, dataBody?: Object) : Promise<any> => {
   return new Promise((resolve, reject) => {
     const bodyData: Object = dataBody ? {body: JSON.stringify(dataBody)} : {};
 
@@ -7,12 +9,11 @@ const callAPI = (URL: string, method: string, dataBody?: Object) => {
     const options: RequestInit = {method, ...bodyData, headers};
 
     fetch(URL, options)
-      .then(resp => resp.json().then(data => ({code: resp.status, body: data})))
-      .then(response => {
-        if (response.code > 300) {
-          reject(response);
+      .then(resp => resp.json()).then((response : APIResponse) => {
+        if (response.status === "ok") {
+          resolve(response);
         } else {
-          resolve(response.body);
+          reject(response);
         }
       })
       .catch(function (error) {

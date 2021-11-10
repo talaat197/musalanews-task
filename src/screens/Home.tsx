@@ -1,13 +1,33 @@
-import React from 'react';
-import {VStack, Input, Icon , NativeBaseProvider  , Heading} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import {VStack, Input, Icon , NativeBaseProvider} from 'native-base';
 import Ionicons from 'react-native-ionicons'
 import {StyleSheet} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { fetchNewsAPI } from '../api/fetchNewsAPI';
+import { Article } from '../interfaces/News';
 
 const Home = () => {
+  const {t} = useTranslation()
+  const [search, setSearch] = useState("")
+  useEffect(() => {
+    fetchNews();
+  } , [])
+
+  const fetchNews = async () => {
+    try {
+      const articles : [Article] = await fetchNewsAPI(search);
+      console.log(articles , 'articles');
+    } catch (error) {
+      console.log(error , 'error happened')
+    }
+  }
+
   return (
     <NativeBaseProvider>
       <VStack width="100%" space={5} alignItems="center">
         <Input
+          value={search}
+          onChangeText={setSearch}
           placeholder="Search"
           variant="filled"
           width="100%"
