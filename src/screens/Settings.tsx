@@ -15,7 +15,7 @@ import {
   LearnMoreLinks,
 } from 'react-native/Libraries/NewAppScreen';
 
-export const Settings = () => {
+const Settings = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {

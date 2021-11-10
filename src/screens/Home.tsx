@@ -1,63 +1,37 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {VStack, Input, Icon , NativeBaseProvider  , Heading} from 'native-base';
+import Ionicons from 'react-native-ionicons'
+import {StyleSheet} from 'react-native';
 
-import {
-  Colors,
-  Header,
-  LearnMoreLinks,
-} from 'react-native/Libraries/NewAppScreen';
-
-export const Home = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+const Home = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <View>
-            <Text>Hello Talaat</Text>
-          </View>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NativeBaseProvider>
+      <VStack width="100%" space={5} alignItems="center">
+        <Input
+          placeholder="Search"
+          variant="filled"
+          width="100%"
+          bg="gray.100"
+          borderRadius="10"
+          py="1"
+          px="2"
+          placeholderTextColor="gray.500"
+          _hover={{ bg: 'gray.200', borderWidth: 0 }}
+          borderWidth="0"
+          InputLeftElement={
+            <Icon
+              ml="2"
+              size="5"
+              color="gray.500"
+              as={<Ionicons name="search" />}
+            />
+          }
+        />
+      </VStack>
+    </NativeBaseProvider>
   );
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const styles = StyleSheet.create({});
+
+export default Home;

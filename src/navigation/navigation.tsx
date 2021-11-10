@@ -1,6 +1,6 @@
 import {Navigation} from 'react-native-navigation';
-import {Home} from '../screens/Home';
-import {Settings} from '../screens/Settings';
+import Home from '../screens/Home';
+import Settings from '../screens/Settings';
 
 
 export const registerScreens = () => {
