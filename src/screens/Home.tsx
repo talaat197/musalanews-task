@@ -6,13 +6,15 @@ import {useTranslation} from 'react-i18next';
 import {fetchNewsAPI} from '../api/fetchNewsAPI';
 import {IArticle, INewsProps} from '../interfaces/News';
 import NewsItem from '../components/NewsItem/NewsItem';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { APIResponse } from '../interfaces/API';
 
 const Home = () => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
   const [loading, setLoading] = useState(false);
+  const [page , setPage] = useState(1);
+  const [totalResults , setTotalResults] = useState(0);
 
   useEffect(() => {
     fetchNews();
@@ -21,8 +23,10 @@ const Home = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const articles: [IArticle] = await fetchNewsAPI(search);
+      const {articles , totalResults}: APIResponse = await fetchNewsAPI(search , page);
       setArticlesData(articles);
+      setTotalResults(totalResults);
+
     } catch (error) {
       console.log(error, 'error happened');
     } finally {
@@ -38,8 +42,35 @@ const Home = () => {
   const renderNewsItem = ({item}: INewsProps) => <NewsItem item={item} />;
 
   const doSearch = () => {
-    fetchNews();
+    if(search)
+    {
+      fetchNews();
+    }
   };
+
+  const allowNextPage = () : boolean => {
+    return page * 10 < totalResults;
+  }
+
+  const handleLoadMore = async () => {
+    setLoading(true);
+    if(allowNextPage())
+    {
+      const newPage = page + 1;
+      setPage(newPage);
+      try {
+        const {articles , totalResults}: APIResponse = await fetchNewsAPI(search , newPage);
+        let newArticlesData : any = articlesData;
+        newArticlesData.push(...articles);
+        setArticlesData(newArticlesData);
+        setTotalResults(totalResults);
+      } catch (error) {
+        console.log(error, 'error happened during load more data');
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
 
   const renderSearchInput = () => (
     <Input
@@ -82,6 +113,8 @@ const Home = () => {
         refreshing={loading}
         onRefresh={() => onReferesh()}
         ListHeaderComponent={renderSearchInput}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
       />
     </NativeBaseProvider>
   );
