@@ -11,6 +11,7 @@ const Home = () => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData , setArticlesData] =  useState<[IArticle] | []>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchNews();
@@ -18,13 +19,21 @@ const Home = () => {
 
   const fetchNews = async () => {
     try {
+      setLoading(true);
       const articles: [IArticle] = await fetchNewsAPI(search);
       setArticlesData(articles);
       console.info(articles, 'articles');
     } catch (error) {
       console.log(error, 'error happened');
+    }finally{
+      setLoading(false);
     }
   };
+
+  const onReferesh = () => {
+    setLoading(true);
+    fetchNews();
+  }
 
   const renderNewsItem = ({ item } : INewsProps) => (
     <NewsItem item={item}/>
@@ -60,6 +69,8 @@ const Home = () => {
           data={articlesData}
           renderItem={renderNewsItem}
           keyExtractor={(item , index) => index.toString()}
+          refreshing={loading}
+          onRefresh={() => onReferesh()}
         />
       </VStack>
     </NativeBaseProvider>
