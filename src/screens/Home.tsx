@@ -51,7 +51,7 @@ const Home = () => {
               ml="2"
               size="5"
               color="gray.500"
-              as={<Ionicons name="search" />}
+              as={<Ionicons name="ios-search" />}
             />
           }
         />

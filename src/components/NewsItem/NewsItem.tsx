@@ -10,8 +10,14 @@ import {
 } from 'native-base';
 
 import {IArticle, INewsProps} from '../../interfaces/News';
+import moment from 'moment';
 
 const NewsItem = ({item}: INewsProps) => {
+  
+    const getPublishedDate = (publishedAt: string) => {
+    return moment(publishedAt).format('MMMM DD');
+  };
+
   const {author, title, urlToImage, publishedAt}: IArticle = item;
   return (
     <Box
@@ -64,7 +70,7 @@ const NewsItem = ({item}: INewsProps) => {
                 color: 'warmGray.200',
               }}
               fontWeight="400">
-              {publishedAt}
+              {getPublishedDate(publishedAt)}
             </Text>
           </HStack>
         </HStack>
