@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {VStack, Input, Icon, NativeBaseProvider, FlatList} from 'native-base';
+import {Input, Icon, NativeBaseProvider, FlatList, Text} from 'native-base';
 import Ionicons from 'react-native-ionicons';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {fetchNewsAPI} from '../api/fetchNewsAPI';
 import {IArticle, INewsProps} from '../interfaces/News';
 import NewsItem from '../components/NewsItem/NewsItem';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Home = () => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
-  const [articlesData , setArticlesData] =  useState<[IArticle] | []>([]);
+  const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,10 +23,9 @@ const Home = () => {
       setLoading(true);
       const articles: [IArticle] = await fetchNewsAPI(search);
       setArticlesData(articles);
-      console.info(articles, 'articles');
     } catch (error) {
       console.log(error, 'error happened');
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -33,46 +33,56 @@ const Home = () => {
   const onReferesh = () => {
     setLoading(true);
     fetchNews();
-  }
+  };
 
-  const renderNewsItem = ({ item } : INewsProps) => (
-    <NewsItem item={item}/>
+  const renderNewsItem = ({item}: INewsProps) => <NewsItem item={item} />;
+
+  const doSearch = () => {
+    fetchNews();
+  };
+
+  const renderSearchInput = () => (
+    <Input
+      value={search}
+      onChangeText={text => setSearch(text)}
+      placeholder={t('search')}
+      variant="filled"
+      width="100%"
+      bg="gray.200"
+      borderRadius="10"
+      placeholderTextColor="gray.500"
+      _hover={{bg: 'gray.300', borderWidth: 0}}
+      borderWidth="0"
+      marginBottom={'1'}
+      InputLeftElement={
+        <Icon
+          ml="2"
+          size="6"
+          color="gray.500"
+          onPress={() => doSearch()}
+          as={<Ionicons name="search" />}
+        />
+      }
+      InputRightElement={
+        <TouchableOpacity onPress={doSearch}>
+          <Text color={'blue.500'} marginRight="2">
+            {t('search')}
+          </Text>
+        </TouchableOpacity>
+      }
+    />
   );
-
   return (
     <NativeBaseProvider>
-      <VStack width="100%" space={0} alignItems="center">
-        <Input
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Search"
-          variant="filled"
-          width="100%"
-          bg="gray.100"
-          borderRadius="10"
-          py="1"
-          px="2"
-          placeholderTextColor="gray.500"
-          _hover={{bg: 'gray.200', borderWidth: 0}}
-          borderWidth="0"
-          InputLeftElement={
-            <Icon
-              ml="2"
-              size="5"
-              color="gray.500"
-              as={<Ionicons name="ios-search" />}
-            />
-          }
-        />
-
-        <FlatList
-          data={articlesData}
-          renderItem={renderNewsItem}
-          keyExtractor={(item , index) => index.toString()}
-          refreshing={loading}
-          onRefresh={() => onReferesh()}
-        />
-      </VStack>
+      <FlatList
+        padding={'1'}
+        data={articlesData}
+        renderItem={renderNewsItem}
+        keyExtractor={(item, index) => index.toString()}
+        refreshing={loading}
+        onRefresh={() => onReferesh()}
+        ListHeaderComponent={renderSearchInput}
+      />
     </NativeBaseProvider>
   );
 };

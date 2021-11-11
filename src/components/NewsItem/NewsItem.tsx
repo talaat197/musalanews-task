@@ -22,7 +22,6 @@ const NewsItem = ({item}: INewsProps) => {
   return (
     <Box
       rounded="lg"
-      padding="1"
       overflow="hidden"
       borderColor="coolGray.200"
       borderWidth="1"
