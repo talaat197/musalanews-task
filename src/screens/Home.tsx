@@ -1,30 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import {VStack, Input, Icon , NativeBaseProvider} from 'native-base';
-import Ionicons from 'react-native-ionicons'
+import React, {useEffect, useState} from 'react';
+import {VStack, Input, Icon, NativeBaseProvider, FlatList} from 'native-base';
+import Ionicons from 'react-native-ionicons';
 import {StyleSheet} from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { fetchNewsAPI } from '../api/fetchNewsAPI';
-import { Article } from '../interfaces/News';
+import {useTranslation} from 'react-i18next';
+import {fetchNewsAPI} from '../api/fetchNewsAPI';
+import {IArticle, INewsProps} from '../interfaces/News';
+import NewsItem from '../components/NewsItem/NewsItem';
 
 const Home = () => {
-  const {t} = useTranslation()
-  const [search, setSearch] = useState("")
+  const {t} = useTranslation();
+  const [search, setSearch] = useState('');
+  const [articlesData , setArticlesData] =  useState<[IArticle] | []>([]);
+
   useEffect(() => {
     fetchNews();
-  } , [])
+  }, []);
 
   const fetchNews = async () => {
     try {
-      const articles : [Article] = await fetchNewsAPI(search);
-      console.log(articles , 'articles');
+      const articles: [IArticle] = await fetchNewsAPI(search);
+      setArticlesData(articles);
+      console.info(articles, 'articles');
     } catch (error) {
-      console.log(error , 'error happened')
+      console.log(error, 'error happened');
     }
-  }
+  };
+
+  const renderNewsItem = ({ item } : INewsProps) => (
+    <NewsItem item={item}/>
+  );
 
   return (
     <NativeBaseProvider>
-      <VStack width="100%" space={5} alignItems="center">
+      <VStack width="100%" space={0} alignItems="center">
         <Input
           value={search}
           onChangeText={setSearch}
@@ -36,7 +44,7 @@ const Home = () => {
           py="1"
           px="2"
           placeholderTextColor="gray.500"
-          _hover={{ bg: 'gray.200', borderWidth: 0 }}
+          _hover={{bg: 'gray.200', borderWidth: 0}}
           borderWidth="0"
           InputLeftElement={
             <Icon
@@ -46,6 +54,12 @@ const Home = () => {
               as={<Ionicons name="search" />}
             />
           }
+        />
+
+        <FlatList
+          data={articlesData}
+          renderItem={renderNewsItem}
+          keyExtractor={(item , index) => index.toString()}
         />
       </VStack>
     </NativeBaseProvider>

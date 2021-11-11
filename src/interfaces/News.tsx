@@ -1,15 +1,19 @@
-export interface Article{
-    source : ArticleSource,
-    author : string,
-    title: string,
-    description: string,
-    url: string,
-    urlToImage: string,
-    publishedAt : string,
-    content: string
+export interface IArticle {
+  source: IArticleSource;
+  author: string;
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string;
+  publishedAt: string;
+  content: string;
 }
 
-export interface ArticleSource {
-    id : string,
-    name: string
+export interface IArticleSource {
+  id: string;
+  name: string;
+}
+
+export interface INewsProps {
+  item: IArticle;
 }
