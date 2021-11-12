@@ -8,19 +8,22 @@ import {
 } from 'native-base';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Navigation} from 'react-native-navigation';
-import {INewsProps} from '../interfaces/News';
-import {ISettingsProps} from '../interfaces/Props';
 import {getSupportedLanguages} from '../lang/lang';
-import { setNavigationScreenNames } from '../navigation/navigation';
+import {Navigation} from 'react-native-navigation';
+import {getAppRoot} from '../navigation/navigation';
 
-const Settings = (props: ISettingsProps) => {
+const Settings = () => {
   const {t, i18n} = useTranslation();
   const [lang, setLang] = useState(i18n.language);
 
-  const handleChangeLang = (lang: string) => {
+  const handleChangeLang = async (lang: string) => {
     setLang(lang);
     i18n.changeLanguage(lang);
+    Navigation.setRoot({
+      root: {
+        ...getAppRoot(),
+      },
+    });
   };
 
   const renderSelectLanguage = () => {

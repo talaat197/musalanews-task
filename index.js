@@ -1,10 +1,5 @@
-/**
- * @format
- */
-
 import {Navigation} from 'react-native-navigation';
-import i18n from './src/lang/initLang';
-import {registerScreens} from './src/navigation/navigation';
+import {getAppRoot, registerScreens} from './src/navigation/navigation';
 
 registerScreens();
 
@@ -34,52 +29,7 @@ Navigation.setDefaultOptions({
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
-      bottomTabs: {
-        children: [
-          {
-            stack: {
-              children: [
-                {
-                  component: {
-                    name: 'Home',
-                    options: {
-                      bottomTab: {
-                        text: i18n.t('home'),
-                      },
-                      topBar: {
-                        title: {
-                          text: i18n.t('home'),
-                        },
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          },
-          {
-            stack: {
-              children: [
-                {
-                  component: {
-                    name: 'Settings',
-                    options: {
-                      bottomTab: {
-                        text: i18n.t('settings'),
-                      },
-                      topBar: {
-                        title: {
-                          text: i18n.t('settings'),
-                        },
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
+      ...getAppRoot()
     },
   });
 });
