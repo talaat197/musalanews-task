@@ -1,65 +1,64 @@
-import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  NativeBaseProvider,
+  Select,
+  VStack,
+  CheckIcon,
+  HStack,
+  FormControl,
+} from 'native-base';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Navigation} from 'react-native-navigation';
+import {INewsProps} from '../interfaces/News';
+import {ISettingsProps} from '../interfaces/Props';
+import {getSupportedLanguages} from '../lang/lang';
+import { setNavigationScreenNames } from '../navigation/navigation';
 
-import {
-  Colors,
-  Header,
-  LearnMoreLinks,
-} from 'react-native/Libraries/NewAppScreen';
+const Settings = (props: ISettingsProps) => {
+  const {t, i18n} = useTranslation();
+  const [lang, setLang] = useState(i18n.language);
 
-const Settings = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const handleChangeLang = (lang: string) => {
+    setLang(lang);
+    i18n.changeLanguage(lang);
   };
 
+  const renderSelectLanguage = () => {
+    return (
+      <Select
+        selectedValue={lang}
+        minWidth="250"
+        placeholder="Choose Service"
+        _selectedItem={{
+          bg: 'teal.600',
+          endIcon: <CheckIcon size="5" />,
+        }}
+        onValueChange={handleChangeLang}>
+        {getSupportedLanguages().map((value, index) => (
+          <Select.Item
+            label={value.label}
+            value={value.value}
+            key={index.toString()}
+          />
+        ))}
+      </Select>
+    );
+  };
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <View>
-            <Text>Hello Talaat</Text>
-          </View>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NativeBaseProvider>
+      <VStack space={4} padding={'4'}>
+        <HStack justifyContent="space-between">
+          <FormControl.Label
+            justifyContent="center"
+            textAlign="center"
+            alignItems="center">
+            {t('language')}
+          </FormControl.Label>
+          {renderSelectLanguage()}
+        </HStack>
+      </VStack>
+    </NativeBaseProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default Settings;
