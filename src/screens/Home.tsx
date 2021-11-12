@@ -6,15 +6,17 @@ import {useTranslation} from 'react-i18next';
 import {fetchNewsAPI} from '../api/fetchNewsAPI';
 import {IArticle, INewsProps} from '../interfaces/News';
 import NewsItem from '../components/NewsItem/NewsItem';
-import { APIResponse } from '../interfaces/API';
+import {APIResponse} from '../interfaces/API';
+import {Navigation} from 'react-native-navigation';
+import {IHomeProps} from '../interfaces/Props';
 
-const Home = () => {
+const Home = (props: IHomeProps) => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
   const [loading, setLoading] = useState(false);
-  const [page , setPage] = useState(1);
-  const [totalResults , setTotalResults] = useState(0);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
 
   useEffect(() => {
     fetchNews();
@@ -23,10 +25,12 @@ const Home = () => {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const {articles , totalResults}: APIResponse = await fetchNewsAPI(search , page);
+      const {articles, totalResults}: APIResponse = await fetchNewsAPI(
+        search,
+        page,
+      );
       setArticlesData(articles);
       setTotalResults(totalResults);
-
     } catch (error) {
       console.log(error, 'error happened');
     } finally {
@@ -38,29 +42,54 @@ const Home = () => {
     setLoading(true);
     fetchNews();
   };
+  const handlePressNewsItem = (item: IArticle) => {
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'ArticleDetails',
+        options: {
+          bottomTab: {
+            text: t('article'),
+          },
+          topBar: {
+            title: {
+              text: t('article'),
+            },
+          },
+        },
+        passProps: {
+          item
+        }
+      },
+    });
+  };
 
-  const renderNewsItem = ({item}: INewsProps) => <NewsItem item={item} />;
+  const renderNewsItem = ({item}: INewsProps) => (
+    <TouchableOpacity onPress={() => handlePressNewsItem(item)}>
+      <NewsItem item={item} />
+    </TouchableOpacity>
+  );
 
   const doSearch = () => {
-    if(search)
-    {
+    if (search) {
       fetchNews();
     }
   };
 
-  const allowNextPage = () : boolean => {
+  const allowNextPage = (): boolean => {
     return page * 10 < totalResults;
-  }
+  };
 
   const handleLoadMore = async () => {
     setLoading(true);
-    if(allowNextPage())
-    {
+    if (allowNextPage()) {
       const newPage = page + 1;
       setPage(newPage);
       try {
-        const {articles , totalResults}: APIResponse = await fetchNewsAPI(search , newPage);
-        let newArticlesData : any = articlesData;
+        const {articles, totalResults}: APIResponse = await fetchNewsAPI(
+          search,
+          newPage,
+        );
+        let newArticlesData: any = articlesData;
         newArticlesData.push(...articles);
         setArticlesData(newArticlesData);
         setTotalResults(totalResults);
@@ -70,7 +99,7 @@ const Home = () => {
         setLoading(false);
       }
     }
-  }
+  };
 
   const renderSearchInput = () => (
     <Input

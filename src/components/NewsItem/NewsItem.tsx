@@ -11,13 +11,9 @@ import {
 
 import {IArticle, INewsProps} from '../../interfaces/News';
 import moment from 'moment';
+import { getPublishedDate } from '../../utilities/helper';
 
 const NewsItem = ({item}: INewsProps) => {
-  
-    const getPublishedDate = (publishedAt: string) => {
-    return moment(publishedAt).format('MMMM DD');
-  };
-
   const {author, title, urlToImage, publishedAt}: IArticle = item;
   return (
     <Box
