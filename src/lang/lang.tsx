@@ -6,7 +6,7 @@ export const getSupportedLanguages = () => {
         },
         {
             label : 'Deutsch',
-            value : 'du'
+            value : 'de'
         }
     ]
 };

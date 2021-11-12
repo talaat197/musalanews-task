@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import enTranslations from './en.json';
-import duTranslations from './du.json';
+import deTranslations from './de.json';
 
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
@@ -9,8 +9,8 @@ i18n.use(initReactI18next).init({
     en: {
       translation: enTranslations,
     },
-    du: {
-      translation: duTranslations,
+    de: {
+      translation: deTranslations,
     },
   },
   lng: 'en',

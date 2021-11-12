@@ -4,5 +4,6 @@
     "settings" : "Settings DU",
     "search" : "Search DU",
     "article" : "Article DU",
-    "language" : "Language DU"
+    "language" : "Language DU",
+    "no_news" : "There's no available news DU"
 }

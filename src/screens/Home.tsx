@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Input, Icon, NativeBaseProvider, FlatList, Text} from 'native-base';
+import {
+  Input,
+  Icon,
+  NativeBaseProvider,
+  FlatList,
+  Text,
+  Heading,
+  Center,
+} from 'native-base';
 import Ionicons from 'react-native-ionicons';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
@@ -57,8 +65,8 @@ const Home = (props: IHomeProps) => {
           },
         },
         passProps: {
-          item
-        }
+          item,
+        },
       },
     });
   };
@@ -144,6 +152,11 @@ const Home = (props: IHomeProps) => {
         ListHeaderComponent={renderSearchInput}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.1}
+        ListEmptyComponent={
+          <Center>
+            <Heading size="md" mt="4">{t('no_news')}</Heading>
+          </Center>
+        }
       />
     </NativeBaseProvider>
   );

@@ -4,5 +4,6 @@
     "settings" : "Settings",
     "search" : "Search",
     "article" : "Article",
-    "language" : "Language"
+    "language" : "Language",
+    "no_news" : "There's no available news"
 }
