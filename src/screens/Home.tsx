@@ -17,6 +17,8 @@ import NewsItem from '../components/NewsItem/NewsItem';
 import {APIResponse} from '../interfaces/API';
 import {Navigation} from 'react-native-navigation';
 import {IHomeProps} from '../interfaces/Props';
+import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
 
 const Home = (props: IHomeProps) => {
   const {t} = useTranslation();
@@ -141,7 +143,7 @@ const Home = (props: IHomeProps) => {
     />
   );
   return (
-    <NativeBaseProvider>
+    <BaseContainer>
       <FlatList
         padding={'1'}
         data={articlesData}
@@ -154,11 +156,13 @@ const Home = (props: IHomeProps) => {
         onEndReachedThreshold={0.1}
         ListEmptyComponent={
           <Center>
-            <Heading size="md" mt="4">{t('no_news')}</Heading>
+            <Heading size="md" mt="4">
+              {t('no_news')}
+            </Heading>
           </Center>
         }
       />
-    </NativeBaseProvider>
+    </BaseContainer>
   );
 };
 

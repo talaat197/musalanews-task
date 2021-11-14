@@ -14,6 +14,7 @@ import {StyleSheet} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {IArticle, INewsProps} from '../interfaces/News';
 import { getDetailedDate } from '../utilities/helper';
+import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
 
 const ArticleDetails = ({item}: INewsProps) => {
   const {t} = useTranslation();
@@ -27,7 +28,7 @@ const ArticleDetails = ({item}: INewsProps) => {
     content,
   }: IArticle = item;
   return (
-    <NativeBaseProvider>
+    <BaseContainer>
       <ScrollView>
         <Box
           rounded="lg"
@@ -90,7 +91,7 @@ const ArticleDetails = ({item}: INewsProps) => {
           </Stack>
         </Box>
       </ScrollView>
-    </NativeBaseProvider>
+    </BaseContainer>
   );
 };
 

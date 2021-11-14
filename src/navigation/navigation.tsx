@@ -1,8 +1,12 @@
+import React from 'react';
+import { Appearance } from 'react-native';
+import Icon from 'react-native-ionicons';
 import {Navigation} from 'react-native-navigation';
 import i18n from '../lang/initLang';
 import ArticleDetails from '../screens/ArticleDetails';
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
+import { bottomTabsTheme } from '../styles';
 
 export const registerScreens = () => {
   Navigation.registerComponent('Home', () => Home);
@@ -22,7 +26,10 @@ export const getAppRoot = () => {
                   name: 'Home',
                   options: {
                     bottomTab: {
-                      text: i18n.t('home'),
+                      icon : require('../assets/icons/news-outline.png'),
+                      selectedIcon : require('../assets/icons/news-fill.png'),
+                      iconWidth : 50,
+                      iconHeight : 50,
                     },
                     topBar: {
                       title: {
@@ -43,7 +50,10 @@ export const getAppRoot = () => {
                   name: 'Settings',
                   options: {
                     bottomTab: {
-                      text: i18n.t('settings'),
+                      icon : require('../assets/icons/settings-outline.png'),
+                      selectedIcon : require('../assets/icons/settings-fill.png'),
+                      iconWidth : 50,
+                      iconHeight : 50,
                     },
                     topBar: {
                       title: {
@@ -57,6 +67,9 @@ export const getAppRoot = () => {
           },
         },
       ],
+      options: {
+        bottomTabs: bottomTabsTheme(Appearance.getColorScheme())
+    },
     },
   };
 };

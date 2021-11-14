@@ -11,6 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {getSupportedLanguages} from '../lang/lang';
 import {Navigation} from 'react-native-navigation';
 import {getAppRoot} from '../navigation/navigation';
+import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
 
 const Settings = () => {
   const {t, i18n} = useTranslation();
@@ -48,7 +49,7 @@ const Settings = () => {
     );
   };
   return (
-    <NativeBaseProvider>
+    <BaseContainer>
       <VStack space={4} padding={'4'}>
         <HStack justifyContent="space-between">
           <FormControl.Label
@@ -60,7 +61,7 @@ const Settings = () => {
           {renderSelectLanguage()}
         </HStack>
       </VStack>
-    </NativeBaseProvider>
+    </BaseContainer>
   );
 };
 
