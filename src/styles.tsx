@@ -5,11 +5,11 @@ export const bottomTabsTheme = (theme: string | null | undefined) => ({
   backgroundColor: theme == 'dark' ? DARK_COLOR : LIGHT_COLOR,
 });
 
-export const statusBarTheme = (theme: string) => ({
+export const statusBarTheme = (theme: string | null | undefined) => ({
   backgroundColor: theme == 'dark' ? DARK_COLOR : LIGHT_COLOR,
 });
 
-export const topBarTheme = (theme: string) => ({
+export const topBarTheme = (theme: string | null | undefined) => ({
   title: {
     color: theme == 'dark' ? LIGHT_COLOR : DARK_COLOR,
   },

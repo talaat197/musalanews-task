@@ -6,7 +6,7 @@ import i18n from '../lang/initLang';
 import ArticleDetails from '../screens/ArticleDetails';
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
-import { bottomTabsTheme } from '../styles';
+import { bottomTabsTheme, LIGHT_COLOR, statusBarTheme, topBarTheme } from '../styles';
 
 export const registerScreens = () => {
   Navigation.registerComponent('Home', () => Home);
@@ -14,7 +14,7 @@ export const registerScreens = () => {
   Navigation.registerComponent('ArticleDetails', () => ArticleDetails);
 };
 
-export const getAppRoot = () => {
+export const getAppRoot = (isDark : boolean) => {
   return {
     bottomTabs: {
       children: [
@@ -30,6 +30,8 @@ export const getAppRoot = () => {
                       selectedIcon : require('../assets/icons/news-fill.png'),
                       iconWidth : 50,
                       iconHeight : 50,
+                      iconColor : isDark ? LIGHT_COLOR : '',
+                      selectedIconColor : isDark ? LIGHT_COLOR : ''
                     },
                     topBar: {
                       title: {
@@ -54,6 +56,8 @@ export const getAppRoot = () => {
                       selectedIcon : require('../assets/icons/settings-fill.png'),
                       iconWidth : 50,
                       iconHeight : 50,
+                      iconColor : isDark ? LIGHT_COLOR : '',
+                      selectedIconColor : isDark ? LIGHT_COLOR : ''
                     },
                     topBar: {
                       title: {
@@ -73,3 +77,12 @@ export const getAppRoot = () => {
     },
   };
 };
+
+export const setNavigationDefaultOptions = (theme : string  |null | undefined) => {
+  console.info('top bar color' , theme)
+  Navigation.setDefaultOptions({
+    statusBar: statusBarTheme(theme),
+    topBar: topBarTheme(theme),
+  });
+} 
+

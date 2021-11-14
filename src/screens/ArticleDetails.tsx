@@ -10,14 +10,16 @@ import {
   HStack,
   ScrollView,
 } from 'native-base';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {IArticle, INewsProps} from '../interfaces/News';
-import { getDetailedDate } from '../utilities/helper';
+import {getDetailedDate} from '../utilities/helper';
 import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
+import {DARK_COLOR, LIGHT_COLOR} from '../styles';
 
 const ArticleDetails = ({item}: INewsProps) => {
   const {t} = useTranslation();
+  const theme = useColorScheme();
 
   const {
     author,
@@ -33,15 +35,9 @@ const ArticleDetails = ({item}: INewsProps) => {
         <Box
           rounded="lg"
           overflow="hidden"
-          borderColor="coolGray.200"
-          borderWidth="1"
-          _dark={{
-            borderColor: 'coolGray.600',
-            backgroundColor: 'gray.700',
-          }}
-          _light={{
-            backgroundColor: 'gray.50',
-          }}>
+          borderColor={theme == 'dark' ? 'coolGray.600' : 'coolGray.200'}
+          backgroundColor={theme == 'dark' ? 'gray.700' : 'gray.50'}
+          borderWidth="1">
           <Box>
             <AspectRatio ratio={16 / 9}>
               <Image
@@ -54,35 +50,38 @@ const ArticleDetails = ({item}: INewsProps) => {
           </Box>
           <Stack p="4" space={3}>
             <Stack space={2}>
-              <Heading size="md" ml="-1">
+              <Heading
+                color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}
+                size="md"
+                ml="-1">
                 {title}
               </Heading>
               <Text
                 fontSize="xs"
-                _light={{
-                  color: 'violet.500',
-                }}
-                _dark={{
-                  color: 'violet.400',
-                }}
+                color={theme == 'dark' ? 'violet.400' : 'violet.500'}
                 fontWeight="500"
                 ml="-0.5"
                 mt="-1">
                 {author}
               </Text>
             </Stack>
-            <Text fontWeight="400">{description}</Text>
-            <Text fontWeight="400">{content}</Text>
+            <Text
+              fontWeight="400"
+              color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}>
+              {description}
+            </Text>
+            <Text
+              fontWeight="400"
+              color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}>
+              {content}
+            </Text>
             <HStack
               alignItems="center"
               space={4}
               justifyContent="space-between">
               <HStack alignItems="center">
                 <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}
+                  color={theme == 'dark' ? 'warmGray.200' : 'coolGray.600'}
                   fontWeight="400">
                   {getDetailedDate(publishedAt)}
                 </Text>

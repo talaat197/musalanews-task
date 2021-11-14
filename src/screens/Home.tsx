@@ -9,7 +9,7 @@ import {
   Center,
 } from 'native-base';
 import Ionicons from 'react-native-ionicons';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {fetchNewsAPI} from '../api/fetchNewsAPI';
 import {IArticle, INewsProps} from '../interfaces/News';
@@ -18,7 +18,8 @@ import {APIResponse} from '../interfaces/API';
 import {Navigation} from 'react-native-navigation';
 import {IHomeProps} from '../interfaces/Props';
 import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
+import {color} from 'native-base/lib/typescript/theme/styled-system';
+import { DARK_COLOR, LIGHT_COLOR } from '../styles';
 
 const Home = (props: IHomeProps) => {
   const {t} = useTranslation();
@@ -27,6 +28,7 @@ const Home = (props: IHomeProps) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const theme = useColorScheme();
 
   useEffect(() => {
     fetchNews();
@@ -156,7 +158,10 @@ const Home = (props: IHomeProps) => {
         onEndReachedThreshold={0.1}
         ListEmptyComponent={
           <Center>
-            <Heading size="md" mt="4">
+            <Heading
+              size="md"
+              mt="4"
+              color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}>
               {t('no_news')}
             </Heading>
           </Center>
