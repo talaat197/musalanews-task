@@ -1,27 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Input,
-  Icon,
-  NativeBaseProvider,
-  FlatList,
-  Text,
-  Heading,
-  Center,
-} from 'native-base';
+import {Input, Icon, FlatList, Text, Heading, Center} from 'native-base';
 import Ionicons from 'react-native-ionicons';
-import {StyleSheet, TouchableOpacity, useColorScheme} from 'react-native';
+import {TouchableOpacity, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {fetchNewsAPI} from '../api/fetchNewsAPI';
-import {IArticle, INewsProps} from '../interfaces/News';
+import {IArticle, IArticlesProps} from '../interfaces/News';
 import NewsItem from '../components/NewsItem/NewsItem';
 import {APIResponse} from '../interfaces/API';
-import {Navigation} from 'react-native-navigation';
-import {IHomeProps} from '../interfaces/Props';
-import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
-import { DARK_COLOR, LIGHT_COLOR } from '../styles';
+import BaseContainer from '../components/BaseContainer/BaseContainer';
+import {DARK_COLOR, LIGHT_COLOR} from '../styles';
+import { HomeProps } from '../interfaces/Props';
 
-const Home = (props: IHomeProps) => {
+const Home = ({navigation}: HomeProps) => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
@@ -54,28 +44,15 @@ const Home = (props: IHomeProps) => {
     setLoading(true);
     fetchNews();
   };
+
   const handlePressNewsItem = (item: IArticle) => {
-    Navigation.push(props.componentId, {
-      component: {
-        name: 'ArticleDetails',
-        options: {
-          bottomTab: {
-            text: t('article'),
-          },
-          topBar: {
-            title: {
-              text: t('article'),
-            },
-          },
-        },
-        passProps: {
-          item,
-        },
-      },
+    navigation.navigate('ArticleDetails', {
+      item,
     });
+
   };
 
-  const renderNewsItem = ({item}: INewsProps) => (
+  const renderNewsItem = ({item}: IArticlesProps) => (
     <TouchableOpacity onPress={() => handlePressNewsItem(item)}>
       <NewsItem item={item} />
     </TouchableOpacity>
@@ -144,6 +121,23 @@ const Home = (props: IHomeProps) => {
       }
     />
   );
+
+  const renderEmptyComponent = () => {
+    if(!loading)
+    {
+      return (
+        <Center>
+        <Heading
+          size="md"
+          mt="4"
+          color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}>
+          {t('no_news')}
+        </Heading>
+      </Center>
+      )
+    }
+    return null
+  }
   return (
     <BaseContainer>
       <FlatList
@@ -156,21 +150,10 @@ const Home = (props: IHomeProps) => {
         ListHeaderComponent={renderSearchInput}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.1}
-        ListEmptyComponent={
-          <Center>
-            <Heading
-              size="md"
-              mt="4"
-              color={theme == 'dark' ? LIGHT_COLOR : DARK_COLOR}>
-              {t('no_news')}
-            </Heading>
-          </Center>
-        }
+        ListEmptyComponent={renderEmptyComponent}
       />
     </BaseContainer>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default Home;

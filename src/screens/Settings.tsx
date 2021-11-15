@@ -1,5 +1,4 @@
 import {
-  NativeBaseProvider,
   Select,
   VStack,
   CheckIcon,
@@ -9,9 +8,7 @@ import {
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {getSupportedLanguages} from '../lang/lang';
-import {Navigation} from 'react-native-navigation';
-import {getAppRoot, setNavigationDefaultOptions} from '../navigation/navigation';
-import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
+import BaseContainer from '../components/BaseContainer/BaseContainer';
 import {DARK_COLOR, LIGHT_COLOR} from '../styles';
 import {useColorScheme} from 'react-native';
 
@@ -23,11 +20,6 @@ const Settings = () => {
   const handleChangeLang = async (lang: string) => {
     setLang(lang);
     i18n.changeLanguage(lang);
-    Navigation.setRoot({
-      root: {
-        ...getAppRoot(theme == 'dark'),
-      },
-    });
   };
 
   const renderSelectLanguage = () => {

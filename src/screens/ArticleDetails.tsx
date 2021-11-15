@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
-  NativeBaseProvider,
   Text,
   Box,
   AspectRatio,
@@ -11,14 +10,12 @@ import {
   ScrollView,
 } from 'native-base';
 import {StyleSheet, useColorScheme} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import {IArticle, INewsProps} from '../interfaces/News';
+import {IArticle, ArticleDetailsProps} from '../interfaces/News';
 import {getDetailedDate} from '../utilities/helper';
-import BaseContainer from '../components/NewsItem/BaseContainer/BaseContainer';
+import BaseContainer from '../components/BaseContainer/BaseContainer';
 import {DARK_COLOR, LIGHT_COLOR} from '../styles';
 
-const ArticleDetails = ({item}: INewsProps) => {
-  const {t} = useTranslation();
+const ArticleDetails = ({route}: ArticleDetailsProps) => {
   const theme = useColorScheme();
 
   const {
@@ -28,7 +25,7 @@ const ArticleDetails = ({item}: INewsProps) => {
     publishedAt,
     description,
     content,
-  }: IArticle = item;
+  }: IArticle = route.params.item;
   return (
     <BaseContainer>
       <ScrollView>

@@ -1,8 +1,12 @@
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import HomeStack from './src/navigation/HomeStack';
+require("./src/lang/initLang")
 
-const App = () => {
-  return <SafeAreaView></SafeAreaView>;
-};
-
-export default App;
+export default function App() {
+  return (
+      <NavigationContainer>
+        <HomeStack />
+      </NavigationContainer>
+  );
+}

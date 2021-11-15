@@ -9,14 +9,14 @@ import {
   Stack,
 } from 'native-base';
 
-import {IArticle, INewsProps} from '../../interfaces/News';
+import {IArticle, IArticlesProps} from '../../interfaces/News';
 import {getPublishedDate} from '../../utilities/helper';
 import {useColorScheme} from 'react-native';
 import {DARK_COLOR, LIGHT_COLOR} from '../../styles';
 
-const NewsItem = ({item}: INewsProps) => {
+const NewsItem = ({item}: IArticlesProps) => {
   const theme = useColorScheme();
-
+  
   const {author, title, urlToImage, publishedAt}: IArticle = item;
   return (
     <Box

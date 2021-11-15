@@ -1,3 +1,5 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 export interface IArticle {
   source: IArticleSource;
   author: string;
@@ -14,6 +16,16 @@ export interface IArticleSource {
   name: string;
 }
 
-export interface INewsProps {
+type IArticleParams = {
   item: IArticle;
 }
+
+type IArticleDetailsProps = {
+  params : IArticleParams
+};
+
+export type IArticlesProps = {
+  item : IArticle
+};
+
+export type ArticleDetailsProps = NativeStackScreenProps<IArticleDetailsProps , 'params'>;
