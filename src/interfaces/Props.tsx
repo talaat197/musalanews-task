@@ -1,7 +1,6 @@
 import {NavigationAction} from '@react-navigation/routers';
-import { StackScreenProps } from '@react-navigation/stack';
+import {StackScreenProps} from '@react-navigation/stack';
 import {IArticle} from './News';
-
 export interface IHomeProps {
   navigation: NavigationAction;
 }
@@ -11,9 +10,9 @@ export interface ISettingsProps {
 }
 
 export type RootStackParamList = {
-  Home: undefined;
+  Home: {searchText?: string};
   ArticleDetails: {item: IArticle};
-  HomeTabs : undefined
+  HomeTabs: undefined;
 };
 
 export type HomeProps = StackScreenProps<RootStackParamList, 'Home'>;

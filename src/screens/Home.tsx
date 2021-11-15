@@ -11,7 +11,7 @@ import BaseContainer from '../components/BaseContainer/BaseContainer';
 import {DARK_COLOR, LIGHT_COLOR} from '../styles';
 import { HomeProps } from '../interfaces/Props';
 
-const Home = ({navigation , route}: any) => {
+const Home = ({navigation , route}: HomeProps) => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
