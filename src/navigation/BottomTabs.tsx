@@ -59,7 +59,6 @@ const BottomTabs = () => {
       <Tab.Screen
         name="Home"
         component={Home} 
-        initialParams={{t}}
         options={{
           title: t('article'),
           headerTintColor: theme == 'dark' ? LIGHT_COLOR : DARK_COLOR,

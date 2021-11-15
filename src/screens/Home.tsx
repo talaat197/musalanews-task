@@ -11,7 +11,7 @@ import BaseContainer from '../components/BaseContainer/BaseContainer';
 import {DARK_COLOR, LIGHT_COLOR} from '../styles';
 import { HomeProps } from '../interfaces/Props';
 
-const Home = ({navigation}: HomeProps) => {
+const Home = ({navigation , route}: any) => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [articlesData, setArticlesData] = useState<[IArticle] | []>([]);
@@ -21,14 +21,22 @@ const Home = ({navigation}: HomeProps) => {
   const theme = useColorScheme();
 
   useEffect(() => {
-    fetchNews();
+    
+    let searchText = search;
+
+    if(route.params?.searchText) {
+      setSearch(route.params.searchText)
+      searchText = route.params.searchText
+    }
+
+    fetchNews(searchText);
   }, []);
 
-  const fetchNews = async () => {
+  const fetchNews = async (searchText = search) => {
     try {
       setLoading(true);
       const {articles, totalResults}: APIResponse = await fetchNewsAPI(
-        search,
+        searchText,
         page,
       );
       setArticlesData(articles);
